@@ -27,9 +27,11 @@ class App(CliffApp):
         parser = CliffApp.build_option_parser(self, description, version, argparse_kwargs)
         parser.add_argument(
             u'-u', u'--user',
-            action=u'store',
-            default=None,
             help=u'user name',
+        )
+        parser.add_argument(
+            u'-r', u'--room',
+            help=u'room name',
         )
         return parser
 
