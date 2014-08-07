@@ -4,7 +4,7 @@ import abc
 
 from cornice import Service as CorniceService
 
-from thoth.app import App
+from djehuty.app import App
 
 
 class Service(CorniceService):

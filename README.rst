@@ -1,4 +1,4 @@
-thoth
-=====
+djehuty
+=======
 
-chat bot written in Python
+chat bot manager written in Python

@@ -9,12 +9,12 @@ install_requires = [
 ]
 
 setup(
-    name='thoth',
+    name='djehuty',
     version='0.0.2',
     description='chat bot manager',
     author='xica development team',
     author_email='info@xica.net',
-    url='https://github.com/xica/thoth',
+    url='https://github.com/xica/djehuty',
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -32,11 +32,11 @@ setup(
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'thoth = thoth.app:main',
+            'djehuty = djehuty.app:main',
         ],
-        'thoth.commands': [
-            'commands = thoth.command.commands:Commands',
-            'yo = thoth.command.yo:Yo',
+        'djehuty.commands': [
+            'commands = djehuty.command.commands:Commands',
+            'yo = djehuty.command.yo:Yo',
         ],
     }
 )

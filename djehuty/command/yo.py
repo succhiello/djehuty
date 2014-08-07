@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from thoth.command import Command
+from djehuty.command import Command
 
 
 class Yo(Command):

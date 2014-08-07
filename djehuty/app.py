@@ -11,15 +11,15 @@ from cliff.app import App as CliffApp
 from cliff.commandmanager import CommandManager
 from cliff.interactive import InteractiveApp
 
-from thoth import __version__
-from thoth.command import Result
+from djehuty import __version__
+from djehuty.command import Result
 
 
 class App(CliffApp):
 
     def __init__(self, stdin=None, stdout=None, stderr=None,
                  interactive_app_factory=InteractiveApp):
-        CliffApp.__init__(self, 'thoth', __version__, CommandManager('thoth.commands'),
+        CliffApp.__init__(self, 'djehuty', __version__, CommandManager('djehuty.commands'),
                           stdin=stdin, stdout=stdout, stderr=stderr,
                           interactive_app_factory=interactive_app_factory)
 

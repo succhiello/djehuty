@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from thoth.command import Command
+from djehuty.command import Command
 
 
 class Commands(Command):
@@ -15,15 +15,11 @@ class Commands(Command):
                 factory = ep.load()
             except Exception as err:
                 app.stdout.write(u'Could not load %r\n' % ep)
-                if namespace.debug:
-                    traceback.print_exc(file=app.stdout)
                 continue
             try:
                 cmd = factory(app, None)
             except Exception as err:
                 app.stdout.write(u'Could not instantiate %r: %s\n' % (ep, err))
-                if namespace.debug:
-                    traceback.print_exc(file=app.stdout)
                 continue
             one_liner = cmd.get_description().split(u'\n')[0]
             app.stdout.write(u'  %-13s  %s\n' % (name, one_liner))
