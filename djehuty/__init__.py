@@ -11,3 +11,8 @@ except DistributionNotFound:
     __version__ = 'not installed'
 else:
     __version__ = _dist.version
+
+
+def includeme(config):
+
+    config.include('cornice')
