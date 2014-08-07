@@ -32,13 +32,27 @@ class Service(CorniceService):
         pass
 
     @abc.abstractmethod
-    def make_argument(self, request):
-        return u''
+    def get_user(self, request):
+        return ''
+
+    @abc.abstractmethod
+    def get_room(self, request):
+        return ''
+
+    @abc.abstractmethod
+    def make_command_line(self, request):
+        return []
 
     @abc.abstractmethod
     def make_response(self, result):
         return {}
 
-    def __post(self, request):
-        return self.make_response(App.run_and_get_result(self.make_argument(request)))
+    def __make_argument(self, request):
+        return self.__make_service_argument('u', self.get_user(request)) + self.__make_service_argument('r', self.get_room(request)) + self.make_command_line(request)
 
+    def __post(self, request):
+        return self.make_response(App.run_and_get_result(self.__make_argument(request)))
+
+    @staticmethod
+    def __make_service_argument(arg_name, value):
+        return ['-{}'.format(arg_name), value] if arg_name else []
