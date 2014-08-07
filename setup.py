@@ -10,7 +10,7 @@ install_requires = [
 
 setup(
     name='thoth',
-    version='0.0.1',
+    version='0.0.2',
     description='chat bot manager',
     author='xica development team',
     author_email='info@xica.net',
