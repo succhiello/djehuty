@@ -1,4 +1,4 @@
 djehuty
 =======
 
-chat bot manager written in Python
+post webhook manager written in Python

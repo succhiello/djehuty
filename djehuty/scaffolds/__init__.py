@@ -1,0 +1,6 @@
+from pyramid.scaffolds import PyramidTemplate
+
+
+class ServerTemplate(PyramidTemplate):
+    _template_dir = 'server'
+    summary = "djehuty server project"

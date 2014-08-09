@@ -34,6 +34,9 @@ setup(
         'console_scripts': [
             'djehuty = djehuty.app:main',
         ],
+        'pyramid.scaffold': [
+            'djehuty_server = djehuty.scaffolds:ServerTemplate',
+        ],
         'djehuty.commands': [
             'commands = djehuty.command.commands:Commands',
             'yo = djehuty.command.yo:Yo',
