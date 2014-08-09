@@ -37,6 +37,7 @@ setup(
         'pyramid.scaffold': [
             'djehuty_server = djehuty.scaffolds:ServerTemplate',
             'djehuty_service = djehuty.scaffolds:ServiceTemplate',
+            'djehuty_command = djehuty.scaffolds:CommandTemplate',
         ],
         'djehuty.commands': [
             'commands = djehuty.command.commands:Commands',

@@ -9,3 +9,8 @@ class ServerTemplate(PyramidTemplate):
 class ServiceTemplate(PyramidTemplate):
     _template_dir = 'service'
     summary = 'djehuty service project'
+
+
+class CommandTemplate(PyramidTemplate):
+    _template_dir = 'command'
+    summary = 'djehuty command project'
