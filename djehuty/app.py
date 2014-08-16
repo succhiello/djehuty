@@ -4,12 +4,11 @@ from __future__ import print_function
 
 import sys
 
-from cStringIO import StringIO
-from contextlib import closing
-
 from cliff.app import App as CliffApp
 from cliff.commandmanager import CommandManager
 from cliff.interactive import InteractiveApp
+
+from pyramid.decorator import reify
 
 from djehuty import __version__
 from djehuty.command import Result
@@ -17,34 +16,38 @@ from djehuty.command import Result
 
 class App(CliffApp):
 
-    def __init__(self, stdin=None, stdout=None, stderr=None,
+    COMMON_ARGS_DEF = {
+        'user': {
+            'short': 'u',
+            'info': {'help': 'user name'}
+        },
+        'room': {
+            'short': 'r',
+            'info': {'help': 'room name'}
+        },
+    }
+
+    def __init__(self, args_def=None, stdin=None, stdout=None, stderr=None,
                  interactive_app_factory=InteractiveApp):
+        self.__args_def = args_def or {}
         CliffApp.__init__(self, 'djehuty', __version__, CommandManager('djehuty.commands'),
                           stdin=stdin, stdout=stdout, stderr=stderr,
                           interactive_app_factory=interactive_app_factory)
 
     def build_option_parser(self, description, version, argparse_kwargs=None):
         parser = CliffApp.build_option_parser(self, description, version, argparse_kwargs)
-        parser.add_argument(
-            u'-u', u'--user',
-            help=u'user name',
-        )
-        parser.add_argument(
-            u'-r', u'--room',
-            help=u'room name',
-        )
+        for k, v in self.args_def.iteritems():
+            parser.add_argument(
+                *((['-{}'.format(v['short'])] if 'short' in v else []) + ['--{}'.format(k)]),
+                **v.get('info', {})
+            )
         return parser
 
-    @classmethod
-    def run_and_get_result(self, argv):
-        with closing(StringIO()) as stdout, closing(StringIO()) as stderr:
-            result = App(stdout=stdout, stderr=stderr).run(argv)
-            if isinstance(result, Result):
-                return result.value
-            elif result == 0:
-                return stdout.getvalue()
-            else:
-                return stderr.getvalue()
+    @reify
+    def args_def(self):
+        d = self.__args_def.copy()
+        d.update(self.COMMON_ARGS_DEF)
+        return d
 
 
 def main():
