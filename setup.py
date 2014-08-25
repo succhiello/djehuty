@@ -10,7 +10,7 @@ install_requires = [
 
 setup(
     name='djehuty',
-    version='0.0.4',
+    version='0.0.5',
     description='POST web hook manager',
     author='xica development team',
     author_email='info@xica.net',

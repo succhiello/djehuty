@@ -6,10 +6,7 @@ class Myservice(Service):
     def validate(self, request):
         pass
 
-    def get_user(self, request):
-        return ''
-
-    def get_room(self, request):
+    def get_service_argument(self, name, request):
         return ''
 
     def make_command_line(self, request):
