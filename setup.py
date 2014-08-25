@@ -11,7 +11,7 @@ install_requires = [
 setup(
     name='djehuty',
     version='0.0.3',
-    description='chat bot manager',
+    description='POST web hook manager',
     author='xica development team',
     author_email='info@xica.net',
     url='https://github.com/xica/djehuty',
