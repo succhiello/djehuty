@@ -1,0 +1,6 @@
+cliff==1.6.1
+pyramid==1.5.1
+cornice==0.16.2
+uWSGI==2.0.6
+djehuty==0.0.3
+-e .

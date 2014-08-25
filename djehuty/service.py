@@ -2,17 +2,24 @@
 
 import abc
 
+from cStringIO import StringIO
+from contextlib import closing
+
 from cornice import Service as CorniceService
 
 from djehuty.app import App
+from djehuty.command import Result
 
 
 class Service(CorniceService):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, name=None, path=None, description=None, cors_policy=None, depth=1, **kwargs):
+    def __init__(self,
+                 name=None, path=None, description=None, cors_policy=None, depth=1,
+                 args_def=None, **kwargs):
 
+        self.__args_def = args_def or {}
         name = name or self.__class__.__name__.lower()
 
         CorniceService.__init__(
@@ -31,12 +38,14 @@ class Service(CorniceService):
     def validate(self, request):
         pass
 
-    @abc.abstractmethod
     def get_user(self, request):
-        return ''
+        return self.get_service_argument('user', request)
+
+    def get_room(self, request):
+        return self.get_service_argument('room', request)
 
     @abc.abstractmethod
-    def get_room(self, request):
+    def get_service_argument(self, arg_name, request):
         return ''
 
     @abc.abstractmethod
@@ -47,12 +56,31 @@ class Service(CorniceService):
     def make_response(self, result):
         return {}
 
-    def __make_argument(self, request):
-        return self.__make_service_argument('u', self.get_user(request)) + self.__make_service_argument('r', self.get_room(request)) + self.make_command_line(request)
-
     def __post(self, request):
-        return self.make_response(App.run_and_get_result(self.__make_argument(request)))
+        with closing(StringIO()) as stdout, closing(StringIO()) as stderr:
+            app = App(self.__args_def, stdout=stdout, stderr=stderr)
+            result = app.run(self.__make_service_command_line(app.args_def, request))
+            if isinstance(result, Result):
+                result = result.value
+            elif result == 0:
+                result = stdout.getvalue()
+            else:
+                result = stderr.getvalue()
+        return self.make_response(result)
+
+    def __make_service_command_line(self, args_def, request):
+        return [
+            item
+            for arg_name in args_def.keys()
+            for item in self.__get_service_argument(arg_name, request)
+        ] + self.make_command_line(request)
+
+    def __get_service_argument(self, arg_name, request):
+        return self.__make_argument(
+            arg_name,
+            self.get_service_argument(arg_name, request)
+        )
 
     @staticmethod
-    def __make_service_argument(arg_name, value):
-        return ['-{}'.format(arg_name), value] if arg_name else []
+    def __make_argument(arg_name, value):
+        return ['--{}'.format(arg_name), value] if arg_name and value else []

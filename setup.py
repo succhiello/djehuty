@@ -10,8 +10,8 @@ install_requires = [
 
 setup(
     name='djehuty',
-    version='0.0.3',
-    description='chat bot manager',
+    version='0.0.4',
+    description='POST web hook manager',
     author='xica development team',
     author_email='info@xica.net',
     url='https://github.com/xica/djehuty',
@@ -33,6 +33,11 @@ setup(
     entry_points={
         'console_scripts': [
             'djehuty = djehuty.app:main',
+        ],
+        'pyramid.scaffold': [
+            'djehuty_server = djehuty.scaffolds:ServerTemplate',
+            'djehuty_service = djehuty.scaffolds:ServiceTemplate',
+            'djehuty_command = djehuty.scaffolds:CommandTemplate',
         ],
         'djehuty.commands': [
             'commands = djehuty.command.commands:Commands',
