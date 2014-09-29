@@ -58,6 +58,7 @@ implement custom service
 Example code with comments from djehutyslack<https://github.com/xica/djehutyslack/>.
 
 djehutyslack/djehutyslack/slack.py
+
 .. code:: python
 
   # ..snipped..
@@ -116,6 +117,7 @@ If you want to publish your service, you need to implement it as a stand-alone p
 "includeme" example code with comments from djehutyslack.
 
 djehutyslack/djehutyslack/__init__.py
+
 .. code:: python
 
   def includeme(config):
@@ -169,6 +171,7 @@ Example code with comments from djehuty.command.yo.
 entry_points example code with comments from djehutylgtm<https://github.com/xica/djehutylgtm/>.
 
 djehutylgtm/setup.py
+
 .. code:: python
 
   # ..snipped..
