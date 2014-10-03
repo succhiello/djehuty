@@ -1,42 +1,23 @@
-# -*- coding: utf-8 -*-
-
 import abc
 
 from cStringIO import StringIO
 from contextlib import closing
 
-from cornice import Service as CorniceService
+from djehuty.receiver import Receiver
 
 from djehuty.app import App
 from djehuty.command import Result
 
 
-class Service(CorniceService):
-
-    __metaclass__ = abc.ABCMeta
+class Service(Receiver):
 
     def __init__(self,
-                 name=None, path=None, description=None, cors_policy=None, depth=1,
+                 name=None, path=None, description=None, cors_policy=None, depth=0,
                  args_def=None, **kwargs):
 
         self.__args_def = args_def or {}
-        name = name or self.__class__.__name__.lower()
 
-        CorniceService.__init__(
-            self,
-            name=name,
-            path=path or u'/{}'.format(name),
-            description=description or u'service for {}'.format(path),
-            cors_policy=cors_policy,
-            depth=depth + 1,
-            validators=self.validate,
-            **kwargs
-        )
-
-        self.post()(self.__post)
-
-    def validate(self, request):
-        pass
+        Receiver.__init__(self, name, path, description, cors_policy, depth + 1, **kwargs)
 
     def get_user(self, request):
         return self.get_service_argument('user', request)
@@ -56,7 +37,7 @@ class Service(CorniceService):
     def make_response(self, result):
         return {}
 
-    def __post(self, request):
+    def receive(self, request):
         with closing(StringIO()) as stdout, closing(StringIO()) as stderr:
             app = App(self.__args_def, stdout=stdout, stderr=stderr)
             result = app.run(self.__make_service_command_line(app.args_def, request))
